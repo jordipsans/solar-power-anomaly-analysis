@@ -11,10 +11,9 @@ __pycache__/
 
 # Jupyter
 .ipynb_checkpoints/
-.notebooks/
 
 # Datos
-datos/
+data/
 *.csv
 *.xlsx
 *.parquet
@@ -23,9 +22,6 @@ datos/
 *.sqlite
 *.duckdb
 
-# Entregables
-entregables/
-reports/
 
 # Archivos de log
 *.log
