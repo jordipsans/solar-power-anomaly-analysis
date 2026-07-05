@@ -1,0 +1,14 @@
+actualizar graficos del readme
+mejorar readme con recomendaciones de claude:
+    Carpeta dashboards → elimínala. Si tu único dashboard es el README, tenerla vacía o con un solo archivo confunde más que ayuda.
+    Carpeta graphics → sí, añade todos los gráficos relevantes del proyecto. Pero sé selectivo: no todos los que generaste tienen el mismo valor. Prioriza los que cuenten una historia clara por sí solos (heatmaps de anomalías, ranking de inverters, ratio irradiación/energía). Los exploratorios de EDA básico puedes omitirlos.
+    README → es tu CV del proyecto. Estructura recomendada para recruiters:
+
+    Descripción breve del problema (2-3 líneas)
+    Stack tecnológico (badges visuales si puedes)
+    Estructura del repositorio
+    Insights clave con los gráficos más impactantes embebidos directamente (![title](reports/graphics/nombre.png))
+    Conclusiones
+
+    Recomendación extra: renombra los archivos de gráficos con nombres descriptivos antes de subirlos (heatmap_potencia_p2.png en lugar de fig1.png). Los recruiters técnicos a veces miran los nombres de archivo y da buena impresión.
+revisar guiones/guiones bajos

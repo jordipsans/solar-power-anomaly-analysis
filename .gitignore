@@ -13,7 +13,7 @@ __pycache__/
 .ipynb_checkpoints/
 
 # Datos
-data/
+data/intermediate
 *.csv
 *.xlsx
 *.parquet
