@@ -13,15 +13,16 @@ __pycache__/
 .ipynb_checkpoints/
 
 # Datos
-data/intermediate
-*.csv
+data/
+*.pkl
 *.xlsx
-*.parquet
 *.feather
 *.db
 *.sqlite
 *.duckdb
 
+# Docs
+docs/
 
 # Archivos de log
 *.log

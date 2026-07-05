@@ -21,8 +21,8 @@ Original datasets before cleaning or transformation.
 
 Processed analytical tables created from the raw data.
 
-* **tablon_analitico_preparado.pkl**: Main analytical table. It combines cleaned generation and sensor data at 15-minute intervals.
-* **tablon_analitico_diario.pkl**: Daily aggregated table used to analyze broader patterns and performance trends over time.
+* **tablon_analitico.parquet**: Main analytical table. It combines cleaned generation and sensor data at 15-minute intervals.
+* **tablon_analitico_diario.parquet**: Daily aggregated table used to analyze broader patterns and performance trends over time.
 
 ## Note
 
