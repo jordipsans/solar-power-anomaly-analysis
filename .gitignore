@@ -12,14 +12,13 @@ __pycache__/
 # Jupyter
 .ipynb_checkpoints/
 
-# Datos
-data/
-*.pkl
-*.xlsx
-*.feather
+# Datos pesados
 *.db
 *.sqlite
 *.duckdb
+
+#Datos de python
+*.pkl
 
 # Docs
 docs/
