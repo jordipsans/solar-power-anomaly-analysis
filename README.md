@@ -42,10 +42,8 @@ During initial data exploration, **4 inverters in Plant 2** showed a notable num
 ## Insight 4 — Partial and Full Irradiation Data Gaps
 Comparative analysis of irradiation capture metrics revealed missing data in both plants:
 
-![DC Power Heatmap P1](reports/graphics/dc_power_heatmap_p1_2020-05-19.png)
-*DC power output by inverter and hour — Plant 1 (2020-05-19). Contrast with Plant 2 shows isolated vs systemic faults.*
-![DC Power Heatmap P2](reports/graphics/dc_power_heatmap_p2_2020-05-20.png)
-*DC power output by inverter and hour — Plant 2 (2020-05-20). Multiple inverters show critical measurement gaps.*
+![Irradiation Heatmaps P1 & P2](reports/graphics/daily_solar_irradiation_by_hour.png)
+*Irradiation(Wh/m2) by day and hour — Plant 1 & 2.*
 
 - **Plant 1:** Partial gaps on 2020-05-16, 2020-05-20, 2020-05-21, 2020-05-28, and 2020-05-29.
 - **Plant 2:** Partial gaps on 2020-05-20 and 2020-05-29. Complete absence of irradiation data from **2020-05-21 to 2020-05-28**.
@@ -55,12 +53,12 @@ DC power generation was recorded during these periods, which points to **irradia
 ---
 
 ## Insight 5 — Irradiation Sensor Faults Confirmed
-The coexistence of degraded irradiation readings alongside normal DC energy generation confirms the faults originate in the **irradiation measurement equipment**, not in the panels or inverters.
+The coexistence of degraded irradiation readings alongside normal energy generation confirms the faults originate in the **irradiation measurement equipment**, not in the panels or inverters.
 
 ![Daily Irradiation Energy Ratio P2](reports/graphics/daily_irradiation_energy_ratio_p2.png)
-*Daily accumulated irradiation, energy output and ratio — Plant 2. Gray dashed line marks expected healthy ratio (6.35).*
+*Daily accumulated irradiation, energy output and ratio — Plant 2.*
 
-Severity was assessed using the daily irradiation/energy ra tio (baseline ≈ 0.065 for a correctly calibrated sensor):
+Severity was assessed using the daily irradiation/energy ratio (baseline ≈ 0.065 for a correctly calibrated sensor):
 
 | Condition | Ratio range |
 |---|---|
