@@ -1,4 +1,4 @@
-# Solar Power Plant data quality and fault exploratory analysis
+# Solar PV Data Quality Analysis and Fault Detection
 
 ## Project overview
 This project explores the operational data of two utility-scale solar power plants with the objective of reviewing data quality and identifying potential measurement anomalies.
@@ -53,37 +53,18 @@ requirements.txt
 ```
 
 ## Methodology
-The analysis followed a progressive investigation approach, where each finding guided the next stage of the analysis.
-The workflow consisted of:
 
-1. Data quality.
+The project followed a progressive investigation workflow, where each finding guided the next stage of the analysis.
+
+1. Dataset validation.
 2. Time series validation.
-3. Creation of the final datasets for the EDA Phase.
+3. Feature engineering and creation of analysis datasets.
 4. Exploratory Data Analysis (EDA).
-    - Atmospherical sensors validation.
-    - Irradiation vs Energy.
-    - Irradiation vs Inverter DC Power.
-    - Inverter AC Power vs DC Power correlation.
-    - Inverter AC Power vs Energy.
-    - Inverter measurement fault detection on critical days.
-5. Inverter fault type analysis.
-6. Inverter fault severity ranking.
-8. Business interpretation of the detected anomalies.
+5. Anomaly detection and fault classification.
+6. Inverter fault prioritisation.
+7. Business interpretation and recommendations.
 
-
-## Analytical Techniques
-
-The project combines several common data analysis techniques, including:
-
-- Exploratory Data Analysis (EDA)
-- Time-series analysis
-- Feature engineering
-- Correlation analysis (Pearson & Spearman)
-- Robust statistical metrics (median and IQR)
-- Anomaly detection
-- Data quality assessment
-- Fault severity ranking
-
+**Techniques used:** EDA, time-series analysis, feature engineering, correlation analysis (Pearson & Spearman), robust statistics (median & IQR), anomaly detection and fault ranking.
 
 ## Assumptions & Limitations
 Several assumptions were made during the analysis due to the limited contextual information available with the datasets.
@@ -110,40 +91,32 @@ The variable `irradiacion_wh_m2` from `Planta1_Sensores.csv` and `Planta2_Sensor
 ## Exploratory Data Analysis Findings
 Each insight presented below builds upon the previous one, following the same investigation process that would typically be carried out during a real exploratory data analysis project.
 
-### Insight 1.1 - Missing Irradiation Records During Solar Hours in Plant 1
+### Insight 1 - Weak Relationship Between Abnormal Performance Ratio and Missing Irradiation Records
 
-Missing irradiation records were detected during the main solar capture period (06:00–20:00) in Plant 1.
+Some days showed unusually high **Performance Ratio (PR)** values. Since PR is calculated using the measured solar irradiation, missing irradiation records could artificially increase the ratio by underestimating the denominator.
 
-![15-Minute Irradiation Records on Critical Days](reports/graphics/irradiation_critical_days_15min.png)
-*15-minute irradiation records during selected critical days. Missing daytime intervals can be clearly observed in Plant 1.*
+- **Performance Ratio =** Acc. Daily Energy / Acc. Daily Solar Irradiation
 
-The main gaps identified were:
+![Daily Performance Ratio by Plant](reports/graphics/daily_performance_ratio.png)  
+*Daily Performance Ratio by plant. Several days present unusually high PR values that could potentially be related to missing irradiation records.*
 
-1. **2020-05-19:** Missing records at 11:45, 12:00 and 12:45 during a high-irradiation period.
-2. **2020-05-20:** Missing records from 13:30 to 17:15 (16 consecutive intervals).
-3. **2020-05-21:** Missing records from 06:00 to 07:30, mainly during low-irradiation hours.
-4. **2020-05-23:** Missing records from 06:00 to 06:30 at the beginning of the solar capture period.
+To verify this hypothesis, the relationship between the **number of missing atmospheric records** and the **daily Performance Ratio** was evaluated independently for each plant using both **Pearson** (linear correlation) and **Spearman** (rank correlation) coefficients.
 
-These gaps affect the daily accumulated irradiation and any metric that depends on it.
+| Plant | Pearson r | Pearson p-value | Spearman ρ | Spearman p-value | N |
+|:-----:|----------:|----------------:|-----------:|-----------------:|--:|
+| P1 | 0.321 | 0.064 | 0.209 | 0.237 | 34 |
+| P2 | 0.181 | 0.306 | 0.207 | 0.239 | 34 |
 
----
+The results indicate:
 
-### Insight 1.2 - Relationship Between High Performance Ratio and Irradiation Data Gaps
+- A weak positive correlation between the number of missing irradiation records and the daily Performance Ratio in both plants.
+- None of the correlations are statistically significant (**p > 0.05**).
+- Therefore, there is **no sufficient statistical evidence** to conclude that missing irradiation records systematically affect the daily Performance Ratio in this dataset.
+- Overall, the correlation coefficients are low and suggest a weak or negligible relationship.
 
-A visible relationship was found between unusually high Performance Ratio values and days with missing irradiation records during solar hours.
+Although some abnormal PR peaks coincide with days containing missing irradiation data, the statistical analysis indicates that these events alone do not explain the observed variability in Performance Ratio.
 
-![Daily Performance Ratio by Plant](reports/graphics/daily_performance_ratio.png)
-*Daily Performance Ratio by plant. Several of the highest PR values coincide with days affected by missing irradiation records.*
-
-The clearest cases were observed on **May 18 and May 20**.
-
-Since the Performance Ratio uses irradiation as part of its calculation, missing irradiation records can artificially increase its value.
-
-This suggests that missing irradiation records are one of the main causes behind the abnormal PR values.
-
----
-
-### Insight 1.3 - Severe Irradiation and DC Power Mismatch in Plant 2
+### Insight 2 - Severe Irradiation and DC Power Mismatch in Plant 2
 
 The comparison between irradiation and DC Power revealed a clear mismatch in Plant 2. Plant 1 also shows some mismatches, although they are much more localized and mainly occur during periods of high irradiation.
 
@@ -156,7 +129,7 @@ To determine whether the problem was related to inverter conversion, DC and AC P
 
 ---
 
-### Insight 2 - DC/AC Power Conversion Faults Discarded
+### Insight 3 - DC/AC Power Conversion Faults Discarded
 
 DC and AC Power remain almost perfectly correlated, even during the anomalous periods detected previously.
 
@@ -176,14 +149,14 @@ The next step was to analyze inverter behaviour at hourly resolution.
 
 ---
 
-### Insight 3 - Different Inverter Anomalies detected at Hourly Level in Critical Days
+### Insight 4 - Different Inverter Anomalies detected at Hourly Level in Critical Days
 
 A detailed review of representative critical days revealed different types of inverter anomalies.
 
-![Hourly AC Power by Inverter - Plant 1](reports/graphics/ac_power_by_inverter_hourly_critical_days_plant_1.png)
+![Hourly AC Power by Inverter - Plant 1](reports/graphics/hourly_ac_power_by_inverter_critical_days_plant_1.png)
 *Hourly AC Power recorded by inverter during representative critical days in Plant 1.*
 
-![Hourly AC Power by Inverter - Plant 2](reports/graphics/ac_power_by_inverter_hourly_critical_days_plant_2.png)
+![Hourly AC Power by Inverter - Plant 2](reports/graphics/hourly_ac_power_by_inverter_critical_days_plant_2.png)
 *Hourly AC Power recorded by inverter during representative critical days in Plant 2.*
 
 Some representative examples are:
@@ -196,19 +169,18 @@ These patterns suggest that not all anomalies share the same origin.
 
 ---
 
-### Insight 3.1 - Measurement System Failures Confirmed
+### Insight 4.1 - Measurement System Failures Confirmed
 
 Some missing power records were identified as measurement failures rather than real production losses.
 Although power measurements disappear temporarily, daily accumulated energy continues increasing, confirming that electricity was still being generated.
 
-**Plant 1 (2020-05-20):**
+**Plant 1 (2020-05-20)**
 | Hour  |   DC |   AC | Energy  |
 | ----- | ---: | ---: | ------: |
 | 13:00 | 1154 | 1126 |    5092 |
 | 13:15 | 1133 | 1107 |    5333 |
 | 17:30 |  171 |  168 |    8180 |
 | 17:45 |  143 |  140 |    8204 |
-
 
 This also explains why the daily average power becomes artificially lower:
 - Daily power is calculated using the average of the available interval records.
@@ -218,10 +190,10 @@ Because of this, missing power records reduce the daily average while daily ener
 
 ---
 
-### Insight 3.2 - Inverter Shutdowns or Operational Faults Identified
+### Insight 4.2 - Inverter Shutdowns or Operational Faults Identified
 A second type of anomaly was also detected.
 
-**Plant 2 (2020-05-15):**
+**Plant 2 (2020-05-15)**
 | Hour  |  DC |  AC | Energy  |
 | ----- | --: | --: | ------: |
 | 09:15 | 861 | 843 |    1378 |
@@ -247,7 +219,7 @@ Two fault types were scored independently:
 
 `Score = anomalous_hours + (absence_days × 5)`
 
-![Inverter Fault Ranking](reports/graphics/inverter-fault-ranking_priority_review.png)
+![Inverter Fault Ranking](reports/graphics/inverter-fault-ranking_by_plant.png)
 *Priority ranking of inverter faults based on missing records and anomalous zero-power events.*
 
 Key findings:
@@ -262,7 +234,7 @@ Key findings:
 Based on the findings, the following actions are recommended:
 
 - Inspect the irradiation sensors, particularly in Plant 2.
-- Investigate the root cause of repeated inverter shutdowns detected in Plant 2.
+- Investigate the root cause of repeated inverter shutdowns detected..
 - Review the calibration and data acquisition systems.
 - Validate the reported DC power measurements for the most affected inverters.
 - Implement automatic monitoring rules to detect future measurement anomalies.
