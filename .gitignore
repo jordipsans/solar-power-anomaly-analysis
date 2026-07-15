@@ -2,6 +2,9 @@
 desktop.ini
 Thumbs.db
 
+#Instrucciones copilot
+.github/
+
 # Entornos
 .env
 .venv/
