@@ -20,6 +20,9 @@ __pycache__/
 #Datos de python
 *.pkl
 
+#Data
+data/intermediate/
+
 # Docs
 docs/
 
